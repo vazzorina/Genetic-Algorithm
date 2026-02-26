@@ -10,9 +10,6 @@ Window {
     visible: true
     title: qsTr("Генетический алгоритм")
 
-    Component.onCompleted: {
-        dataGenerator.generate_population(_popup1, _popup3, _popup_last)
-    }
 
     ColumnLayout {
         anchors.fill: parent
@@ -252,31 +249,41 @@ Window {
                 ValueAxis {
                     id: axisX6
                     min: 0
-                    max: 100
+                    max: 50
                     titleText: "Номер популяции"
                 }
 
                 ValueAxis {
                     id: axisY6
-                    min: 0
+                    min: 25
                     max: 50
-                    titleText: "f(x)"
+                    titleText: "F(x)"
                 }
 
                 SplineSeries {
                     id: _Fx6
-                    name: "Среднее значение функции приспособленности"
+                    name: "Среднее значение F(x)"
                     color: "blue"
                     axisX: axisX6
                     axisY: axisY6
                     width: 2
-                    Component.onCompleted: {
-                        dataGenerator.get_function(_Fx6, true)
-                    }
                 }
 
             }
 
+        }
+
+        Button {
+            width: 40;
+            height: 20;
+            text: "Запуск эволюции"
+            font.pixelSize: 12;
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 20;
+            onClicked: {
+                dataGenerator.generate_population(_popup1, _popup3, _popup_last, _Fx6)
+            }
         }
     }
 

@@ -84,6 +84,8 @@ void DataGenerator::generate_population(QXYSeries *series_start, QXYSeries *seri
         children->clear();
     }
 
+    prev_population->clear();
+
     series_start->replace(points_start);
     series_third->replace(points_third);
     series_last->replace(points_last);

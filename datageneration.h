@@ -2,7 +2,6 @@
 #include <QChart>
 #include <QXYSeries>
 #include <bitset>
-#include <random>
 
 struct Individual {
     int i;
@@ -20,11 +19,9 @@ public:
     ~DataGenerator();
 
     Q_INVOKABLE void get_function(QXYSeries *series, bool is_target); //получение графиков целевой функции и приспособленности
-    Q_INVOKABLE void generate_population(QXYSeries *series); //основная функция эволюции
+    Q_INVOKABLE void generate_population(QXYSeries *series, QXYSeries *series_third, QXYSeries *series_last); //основная функция эволюции
 
 private:
-    std::random_device rd;
-    std::mt19937 gen;
     QList<Individual> *prev_population = new QList<Individual>; //список предыдущей популяции
     QList<Individual> *population = new QList<Individual>; //список текущей популяции
     QList<std::pair<Individual, Individual>> *parents = new QList<std::pair<Individual, Individual>>; //временный список для формирования родителей

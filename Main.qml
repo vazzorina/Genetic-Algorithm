@@ -10,6 +10,10 @@ Window {
     visible: true
     title: qsTr("Генетический алгоритм")
 
+    Component.onCompleted: {
+        dataGenerator.generate_population(_popup1, _popup3, _popup_last)
+    }
+
     ColumnLayout {
         anchors.fill: parent
 
@@ -143,9 +147,6 @@ Window {
                     markerSize: 5
                     borderWidth: 0
                     borderColor: "red"
-                    Component.onCompleted: {
-                        dataGenerator.generate_population(_popup1)
-                    }
                 }
 
             }
@@ -191,9 +192,6 @@ Window {
                     markerSize: 5
                     borderWidth: 0
                     borderColor: "red"
-                    Component.onCompleted: {
-                        dataGenerator.generate_population(_popup3)
-                    }
                 }
 
             }
@@ -239,9 +237,6 @@ Window {
                     markerSize: 5
                     borderWidth: 0
                     borderColor: "red"
-                    Component.onCompleted: {
-                        dataGenerator.generate_population(_popup_last)
-                    }
                 }
 
             }

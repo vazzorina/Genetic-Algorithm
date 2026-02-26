@@ -20,12 +20,12 @@ double DataGenerator::fitness_function(double x) {
     return 25 - get_y(x);
 }
 
-void DataGenerator::target_function(QXYSeries *series) {
+void DataGenerator::get_function(QXYSeries *series, bool is_target) {
     if (!series) return;
     double x = -5, y = 0;
     QList<QPointF> points;
     for (int i = 1; i <= 50; i++) {
-        y = get_y(x);
+        y = is_target ? get_y(x) : fitness_function(x);
         points.append(QPointF(x, y));
         x += 0.2;
     }
@@ -38,26 +38,12 @@ void DataGenerator::generate_population(QXYSeries *series) {
     double x = -5, y = 0;
     QList<QPointF> points;
     for (int i = 1; i <= 50; i++) {
-        y = fitness_function(x);
+        y = get_y(x);
         points.append(QPointF(x, y));
         x += 0.2;
     }
 
     series->replace(points);
-    /*
-    if (!series) return;
-
-    double min = -5.0;
-    double max = 5.0;
-    std::uniform_real_distribution<double> dis(min, max);
-    double fenotip;
-
-
-    for(int i = 1; i <= 50; i++) {
-        fenotip = dis(gen);
-        //прописать расчет хромосом, целевой функции и функции приспособленности
-    }
-    */
 }
 
 // void write_population(QList<Individual> *population) {

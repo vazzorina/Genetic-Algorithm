@@ -25,7 +25,7 @@ public:
     double get_y(double x);
     double fitness_function(double x);
 
-    Q_INVOKABLE void target_function(QXYSeries *series);
+    Q_INVOKABLE void get_function(QXYSeries *series, bool is_target);
     Q_INVOKABLE void generate_population(QXYSeries *series);
     //Q_INVOKABLE void write_population(QList<Individual> *population);
 

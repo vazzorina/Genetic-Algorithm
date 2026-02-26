@@ -19,17 +19,21 @@ public:
     explicit DataGenerator(QObject *parent = nullptr);
     ~DataGenerator();
 
+    Q_INVOKABLE void get_function(QXYSeries *series, bool is_target); //получение графиков целевой функции и приспособленности
+    Q_INVOKABLE void generate_population(QXYSeries *series); //основная функция эволюции
 
-    QList<Individual> *start_population = new QList<Individual>;
+private:
+    std::random_device rd;
+    std::mt19937 gen;
+    QList<Individual> *prev_population = new QList<Individual>; //список предыдущей популяции
+    QList<Individual> *population = new QList<Individual>; //список текущей популяции
+    QList<std::pair<Individual, Individual>> *parents = new QList<std::pair<Individual, Individual>>; //временный список для формирования родителей
+    QList<Individual> *children = new QList<Individual>; //временный список для потомков
 
     double get_y(double x);
     double fitness_function(double x);
-
-    Q_INVOKABLE void get_function(QXYSeries *series, bool is_target);
-    Q_INVOKABLE void generate_population(QXYSeries *series);
-    //Q_INVOKABLE void write_population(QList<Individual> *population);
-
-private:
-    std::mt19937 gen;
-
+    void choice_parent(); //функция для случайного выбора родителей
+    void generate_children(); //функция для генерации детей и их мутации
+    void turnir(); //функция реализующая турнир для особей
+    void write_csv(); //функция для записи данных особей в файл сsv
 };

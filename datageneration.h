@@ -38,7 +38,7 @@ private:
     void choice_parent(); //функция для случайного выбора родителей
     void generate_children(); //функция для генерации детей и их мутации
     void turnir(); //функция реализующая турнир для особей
-    void write_csv(); //функция для записи данных особей в файл сsv
+    void write_csv(std::string file_name, QList<Individual> *popup); //функция для записи данных особей в файл сsv
     void average_Fx(int i); //возвращает среднее значение функции приспособленности
     double get_dx(); //функция расчета относительной прибавки к приспособленности
 };

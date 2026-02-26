@@ -3,6 +3,8 @@
 #include <QXYSeries>
 #include <cmath>
 #include <random>
+#include <fstream>
+#include <iostream>
 
 DataGenerator::DataGenerator(QObject *parent) : QObject(parent), gen(std::random_device{}()) { }
 
@@ -55,7 +57,7 @@ void DataGenerator::generate_population(QXYSeries *series_start, QXYSeries *seri
         prev_population->append(Individ);
         points_start.append(QPointF(x, y));
     }
-
+    write_csv("start_population.csv", prev_population);
 
     int n = 50, i = 0;
     while (i <= n) {
@@ -67,12 +69,14 @@ void DataGenerator::generate_population(QXYSeries *series_start, QXYSeries *seri
             for(const auto &ind : *population) {
                 points_third.append(QPointF(ind.x, ind.y_targ_func));
             }
+            write_csv("third_population.csv", population);
         }
 
         if (i == 50) {
             for(const auto &ind : *population) {
                 points_last.append(QPointF(ind.x, ind.y_targ_func));
             }
+            write_csv("last_population.csv", population);
         }
 
         i++;
@@ -148,6 +152,7 @@ void DataGenerator::turnir() {
     while(population->size() < 50) {
         QList<Individual> ppp;
         for(int i = 0; i + 1 < popup.size(); i += 2) {
+            if(population->size() >= 50) break;
             if(popup[i].fitn_func >= popup[i + 1].fitn_func) {
                 population->append(popup[i]);
                 popup[i].fitn_func = -1;
@@ -156,6 +161,8 @@ void DataGenerator::turnir() {
                 popup[i + 1].fitn_func = -1;
             }
         }
+
+        if(population->size() >= 50) break;
 
         for (const auto &ind : popup){
             if(ind.fitn_func >= 0) {
@@ -177,5 +184,24 @@ void DataGenerator::average_Fx(int i) {
     av_Fx_points->append(QPointF(i, aFx));
 }
 
+void DataGenerator::write_csv(std::string file_name, QList<Individual> *popup) {
+    std::ofstream file(file_name);
+
+    if (!file.is_open()) {
+        return;
+    }
+
+    file << "ID;X_Value;Chromosome;f(x);Fitness" << "\n";
+    int i = 1;
+    for (const auto &ind : *popup) {
+        file << i++ << ";"
+             << ind.x << ";"
+             << " " << ind.chromosome.to_string() << ";"
+             << ind.y_targ_func << ";"
+             << ind.fitn_func << "\n";
+    }
+
+    file.close();
+}
 
 
